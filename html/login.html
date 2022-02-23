@@ -1,0 +1,174 @@
+<!--
+ * @Author: zhiqiang
+ * @Date: 2021-05-18 14:00:49
+ * @LastEditTime: 2021-06-04 12:20:52
+-->
+<!DOCTYPE html>
+<html>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta id="Key" name="Keywords" content="" />
+	<meta id="Des" name="Description" content="" />
+	<meta http-equiv="X-UA-Compatible" content="chrome=1,IE=edge" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="mobile-web-app-capable" content="yes" />
+	<meta name="renderer" content="webkit" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+	<meta name="format-detection" content="telephone=yes" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:100,300,400,500,700,900">
+	<link rel="stylesheet" href="../css/reset.css" />
+	<link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/page.css" />
+	<script type="text/javascript" src="../js/jquery-1.9.1.min.js" ></script>
+	<script type="text/javascript" src="../js/rem.js" ></script>
+	<script src="../js/include.js"></script>
+    <script src="https://open-doc.welink.huaweicloud.com/docs/jsapi/2.0.3/hwh5-cloudonline.js"></script>
+    <!-- 引入Vconsole用于调试，生产环境时请去掉 -->
+    <script src="https://unpkg.com/vconsole/dist/vconsole.min.js"></script>
+    <script>window.vConsole = new window.VConsole();</script>
+    <script>
+        $(function(){
+            HWH5.getAuthCode().then(data => {
+                console.log(data);
+            }).catch(error => {
+                console.log('获取异常', error);
+            });
+        })
+        $(function (){
+                // let text=$("#tenant option:selected").text();//方法一：获取select标签选中的option中的文本。
+                // let val=$("#tenant option:selected").val();//方法一：获取select标签选中的option中的value的值
+            // let contextPath = window.location.href.split("/login")[0];
+            let contextPath = 'http://issosit.ysyec.com/isso';
+            let phonenum=13788775533;
+            $.ajax({
+                type: "get",
+                // url: contextPath + "/getTenants?mobilePhone=" + phonenum,
+                url: 'http://gatewaysit.ysyec.com/iiam/v1/0/sys/user/get/query/user?mobilePhone=13788775533',
+                // contentType: "application/json",
+                // dataType: "json",
+                success: function (result) {
+                    console.log(result)
+                    $("#tenantError").hide()
+                    if (result.failed) {
+                        alert('手机号不正确');
+                    } else if (JSON.stringify(result) === '[]') {
+                        alert('手机号不存在');
+                    } else {
+                        for (var i = 0; i < result.length; i++) {
+                            var option = document.createElement("option");  //创建option标签
+                            option.value = result[i].loginName;    //设置正在创建的option的value属性
+                            option.innerHTML = result[i].tenantName;
+                            option.style.color = '#333';
+                            if (i == 0) {
+                                option.selected = true;
+                            }
+                            $("#tenant").append(option);   //将设置好的 option插入文档片段。
+                        }
+                        $("#error-container").hide();
+                    }
+                }
+            })
+            }
+        )
+    </script>
+    <title>云上营家</title>
+    <style>
+        
+    </style>
+	<body>
+		<div class="loginBg flex flexat" style="background:url(../images/loginbg.jpg) no-repeat center">
+             <div class="hoverCanvas">
+                <canvas class="canvas" id="canvas-overlay"></canvas>
+                <canvas class="canvas canvasHides" id="canvas-lines"></canvas>
+                <img src="../images/loginbg2.jpg" class="imgBg canvasHides">
+             </div>
+<!--             <a class="returnHome" href="../index/index.html"><i class="iconfont">&#xe648;</i></a>-->
+             <div class="loginAuto">
+                  <div class="flex flexat loginFlex">
+                      <div class="leftWelcome colorfff">
+                          <div class="font40">您好！</div>
+                          <p class="font20 opacity8">欢迎登录云上营家后台中心</p>
+                          <img class="icons" src="../images/a1.png" alt="">
+                      </div>
+                      <div class="rightForm flex_1">
+                          <div class="fmTitle">
+                              <span class="font30 pr5" href="javascript:;">账号登录</span>
+                              <!-- <a class="font24 colorbbb hoverColor" href="register.html">立即注册</a> -->
+                          </div>
+                          <form class="loginForm">
+<!--                              <div class="fmItem flex flexat">-->
+<!--                                  <label><i class="iconfont">&#xe642;</i></label>-->
+<!--                                  <div class="inputs flex_1"><input type="text" placeholder="请输入手机号"></div>-->
+<!--                                  <div class="errorTips font14">*请输入真实有效的手机号码</div>-->
+<!--                              </div>-->
+                              <div class="fmItem flex flexat">
+                                <label><i class="iconfont">&#xe63d;</i></label>
+                                <div class="inputs flex_1">
+                                    <select id="tenant" name="tenant">
+                                               <option
+                                                value=""
+                                                disabled
+                                                selected>
+                                                请选择租户
+                                               </option>
+<!--                                        <option value="1">租户1</option>-->
+<!--                                        <option value="2">租户2</option>-->
+                                    </select>
+                                </div>
+                                <i class="iconfont rt font24">&#xe63e;</i>
+                                 <div  id="tenantError" class="errorTips font14">*请选择租户信息</div>
+                              </div> 
+<!--                              <div class="fmItem flex flexat">-->
+<!--                                <label><i class="iconfont">&#xe605;</i></label>-->
+<!--                                <div class="inputs flex_1"><input type="text" id="password" placeholder="输入密码"></div>-->
+<!--                                <i class="iconfont rt font24 clickPwd">&#xe640;</i>-->
+<!--                                 <div class="errorTips font14">*请输入密码</div>-->
+<!--                              </div> -->
+                              <div class="loginBtns pt5 font20"><button class="btn" id="login" type="button">登录</button></div>
+<!--                              <div class="txtCenter color888 pt2"><a class="hoverColor" href="step1.html">忘记密码？</a></div>-->
+<!--                              <div class="txtCenter color888 pt3">登录则表示已经阅读并同意本网站<a class="colorblue" href="">《服务协议》</a>和<a class="colorblue" href="">《隐私政策》</a></div>-->
+                          </form>
+                      </div>
+                  </div>
+             </div>
+        </div>
+		<script type="text/javascript" src="../js/public.js" ></script>
+        <script type="text/javascript" src="../js/canvas.js" ></script>
+        <script>
+            $(function(){
+                $('.clickPwd').click(function(){
+                    $(this).toggleClass('on')
+                    if($(this).hasClass('on')){
+                     $('#password').attr('type','password')
+                    }else{
+                     $('#password').attr('type','text')  
+                    }
+                })
+            })
+            $(function (){
+                $('#login').click(()=>{
+                    let text=$("#tenant option:selected").text();//方法一：获取select标签选中的option中的文本。
+                    let val=$("#tenant option:selected").val();//方法一：获取select标签选中的option中的value的值
+                    console.log(val)
+                    $.ajax({
+                        method: 'GET',
+                        url: `http://gatewaysit.ysyec.com/oauth/token/welink/encryptionApi?redirectUrl=http://srmsit.ysyec.com/app/hwfp/task/detail/1441695/1441668&loginName=${val}&clientId=localhost&effectiveTime=600000`,
+                        // data: val,
+                        // contentType: false,
+                        // processData: false,
+                        success: function(res){
+                            console.log(res)
+                            window.location.href=res
+                        }
+                    });
+                })
+            })
+            $(function(){
+                HWH5.getAuthCode().then(data => {
+                    console.log(data);
+                }).catch(error => {
+                    console.log('获取异常', error);
+                });
+            })
+        </script>
+	</body>
+</html>

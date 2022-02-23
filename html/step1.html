@@ -1,0 +1,84 @@
+<!--
+ * @Author: zhiqiang
+ * @Date: 2021-05-18 14:00:49
+ * @LastEditTime: 2021-05-25 18:40:44
+-->
+<!DOCTYPE html>
+<html>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta id="Key" name="Keywords" content="" />
+	<meta id="Des" name="Description" content="" />
+	<meta http-equiv="X-UA-Compatible" content="chrome=1,IE=edge" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="mobile-web-app-capable" content="yes" />
+	<meta name="renderer" content="webkit" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+	<meta name="format-detection" content="telephone=yes" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:100,300,400,500,700,900">
+	<link rel="stylesheet" href="../css/reset.css" />
+	<link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/page.css" />
+	<script type="text/javascript" src="../js/jquery-1.9.1.min.js" ></script>
+	<script type="text/javascript" src="../js/rem.js" ></script>
+  <script src="../src/lib/jquery.i18n.min.js"></script>
+  <script src="../src/i18n/i18n.js"></script>
+  
+	<script src="../js/include.js"></script>
+    <title>云上营家</title>
+	<body>
+		<div class="loginBg flex flexat" style="background:url(../images/loginbg.jpg) no-repeat center">
+             <div class="hoverCanvas">
+                <canvas class="canvas" id="canvas-overlay"></canvas>
+                <canvas class="canvas canvasHides" id="canvas-lines"></canvas>
+                <img src="../images/loginbg2.jpg" class="imgBg canvasHides">
+             </div>
+             <a class="returnHome" href="login.html"><i class="iconfont">&#xe648;</i></a>
+             <div class="loginAuto forgetAuto">
+                  <div class="fgMain">
+                     <div class="fgTitle flex flexbt flexat">
+                         <div class="tit font24" i18n="forget-password">忘记密码</div>
+                         <div class="stepList flex flexat">
+                            <div class="item on" i18n="acount-confirmation"><span class="num">1</span>账号确认</div>
+                            <i class="iconfont arrow">&#xe61c;</i>
+                            <div class="item" i18n="authentication"><span class="num">2</span>身份验证</div>
+                            <i class="iconfont arrow">&#xe61c;</i>
+                            <div class="item" i18n="new-password"><span class="num">3</span>确认新密码</div>
+                            <i class="iconfont arrow">&#xe61c;</i>
+                            <div class="item" i18n="accomplish"><span class="num">4</span>完成</div>
+                         </div>
+                     </div>
+                     <form class="loginForm forgetForm pt100">
+                            <div class="fmItem flex flexat">
+                                <label><i class="iconfont">&#xe63d;</i></label>
+                                <div class="inputs flex_1"><input type="text" placeholder="账户/邮箱/手机号" i18n="placeholderUser" class="verifyAccount"></div>
+                                <div class="errorTips font14 user_msg" i18n="warningEmpty">内容不能为空!</div>
+                                <div class="errorTips font14 user_msg1" i18n="warningCorrect">*请输入有效的手机号码/邮箱!</div>
+                            </div>
+                            <div class="fmItem flex flexat">
+                                <label><i class="iconfont">&#xe6ae;</i></label>
+                                <div class="inputs flex_1"><input type="text" placeholder="请输入验证码" i18n="placeholderYzm" class="verifyCode"></div>
+                                <img class="codeImg" title="看不清，换一种" src="../images/code.jpg" alt="" onclick="replace()">
+                                 <div class="errorTips font14 user_yzm" i18n="warningYzm">*请输入验证码!</div>
+                            </div>
+                            <div class="loginBtns pt5 font20 max250"><button class="btn verifyBtn" type="button" i18n="confirmation">确定</button></div>
+                      </form>
+                      <div class="lastIcon"><img src="../images/a1s.png" alt=""></div>
+                  </div>
+             </div>
+        </div>
+		<script type="text/javascript" src="../js/public.js" ></script>
+    <script type="text/javascript" src="../js/canvas.js" ></script>
+    <script type="text/javascript" src="../src/js/common/ajax.js" ></script>
+    <script type="text/javascript" src="../src/config/env.js"></script>
+    <script type="text/javascript" src="../src/js/forget-password.js" ></script>
+        <script>
+            var imgUrl = new Config().API_HOST + '/iiam/v1/verify-code/captcha'
+            $(function(){
+              replace()
+            })
+            function replace () {
+              $(".codeImg").attr('src',imgUrl);
+            }
+         </script>
+ 	</body>
+ </html>
